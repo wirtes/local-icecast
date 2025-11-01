@@ -51,19 +51,12 @@
 
     <security>
         <chroot>0</chroot>
-        <changeowner>
-            <user>icecast2</user>
-            <group>icecast</group>
-        </changeowner>
     </security>
 
     <mount>
         <mount-name>/stream.mp3</mount-name>
         <public>1</public>
         <intro></intro>
-        <fallback-mount></fallback-mount>
-        <fallback-override>1</fallback-override>
-        <fallback-when-full>1</fallback-when-full>
         <charset>UTF-8</charset>
     </mount>
 
@@ -71,9 +64,6 @@
         <mount-name>/stream.aac</mount-name>
         <public>1</public>
         <intro></intro>
-        <fallback-mount></fallback-mount>
-        <fallback-override>1</fallback-override>
-        <fallback-when-full>1</fallback-when-full>
         <charset>UTF-8</charset>
     </mount>
 </icecast>
