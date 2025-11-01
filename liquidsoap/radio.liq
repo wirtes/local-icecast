@@ -1,13 +1,10 @@
 set("log.stdout", true)
 set("server.telnet", false)
 
+# Liquidsoap 2.2.4+
 def get_env(name, default="") =
-  value = getenv(name)
-  if value == nil or value == "" then
-    default
-  else
-    value
-  end
+  v = environment.get(name, default=default)  # returns default if missing
+  if v == "" then default else v end          # also treat empty as missing
 end
 
 host = get_env("ICECAST_HOST", "icecast")
@@ -38,21 +35,7 @@ output.icecast(
   url=public_url,
   genre=stream_genre,
   public=true,
-  metadata=audio_metadata,
   radio
 )
 
-output.icecast(
-  %aac(bitrate=128, stereo=true),
-  host=host,
-  port=port,
-  password=password,
-  mount="/stream.aac",
-  name=stream_name ^ " (AAC)",
-  description=stream_description,
-  url=public_url,
-  genre=stream_genre,
-  public=true,
-  metadata=audio_metadata,
-  radio
-)
+
