@@ -2,7 +2,7 @@ set("log.stdout", true)
 set("server.telnet", false)
 
 def get_env(name, default="") =
-  value = system.getenv(name)
+  value = getenv(name=name, default=default)
   if value == nil or value == "" then
     default
   else
