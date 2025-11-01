@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  icecast:
+    image: moul/icecast
+    container_name: icecast
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./icecast/icecast.xml:/etc/icecast2/icecast.xml:ro
+      - icecast_logs:/var/log/icecast2
+    restart: unless-stopped
+
+  liquidsoap:
+    image: savonet/liquidsoap:v2.2.4
+    container_name: liquidsoap
+    depends_on:
+      - icecast
+    command: ["liquidsoap", "/etc/liquidsoap/radio.liq"]
+    environment:
+      ICECAST_HOST: icecast
+      ICECAST_PORT: "8000"
+      ICECAST_SOURCE_PASSWORD: sourcepassword
+      ICECAST_PUBLIC_URL: http://localhost:8000
+      STREAM_NAME: Local Random Stream
+      STREAM_DESCRIPTION: Randomized playlist from ./media
+      STREAM_GENRE: Various
+    volumes:
+      - ./liquidsoap/radio.liq:/etc/liquidsoap/radio.liq:ro
+      - ./media:/music:ro
+      - liquidsoap_state:/var/lib/liquidsoap
+    restart: unless-stopped
+
+volumes:
+  icecast_logs:
+  liquidsoap_state:
